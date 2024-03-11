@@ -11,7 +11,7 @@ app.set('view engine', 'ejs')
 app.use(express.urlencoded())
 app.use(express.json())
 app.use('/auth', authRouter)
-app.use('/test', qrRouter)
+app.use('/api', qrRouter)
 
 const start = async () => {
     try {

@@ -7,6 +7,9 @@
 </head>
 <body>
     <p>user = <%=user._id%></p>
-
+    <form action="/api/qr" method="POST">
+        <input type="text" value="<%=user._id%>" name="userId">
+        <button type="submit">Получить QR</button>
+    </form>
 </body>
 </html>

@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator')
 const {secret} = require('./config')
-const Qrcode = require('qrcode')
 
 const generateAccessToken = (id, roles) => {
     const payload = {
@@ -86,9 +85,8 @@ class authController {
             // console.log(token)
             const user = await User.findById(req.params.id)
             // console.log(user)
-            const qr = await Qrcode.toDataURL(user.id)
-            
-            return res.send(`<img src="${qr}"/>`)
+
+            return res.render('pages/profile', {user})
             
         }   catch(e) {
             console.log(e)
