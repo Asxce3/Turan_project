@@ -11,5 +11,7 @@
         <input type="text" value="<%=user._id%>" name="userId">
         <button type="submit">Получить QR</button>
     </form>
+    <a href="/api/getqr?content=<%=user._id%>">сканипровать qr </a>  
+    <!--Query - заглушка для скана qr иначе будет ошибка -->
 </body>
 </html>

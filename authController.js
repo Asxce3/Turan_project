@@ -27,7 +27,8 @@ class authController {
             }
             const hashPassword = bcrypt.hashSync(password, 7)
             const userRole = await Role.findOne({value: "USER"})
-            const user = new User({username, password: hashPassword, role: [userRole.value]})
+            const user = new User({username, password: hashPassword, bouneses: 0,
+                 subscription: false, role: [userRole.value]})
             await user.save()
             // return res.json({message: 'Пользователь успешно зарегестрирован'})
             return res.redirect('login')
