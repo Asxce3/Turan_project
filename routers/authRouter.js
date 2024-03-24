@@ -17,5 +17,5 @@ router.get('/users', roleMiddleware(['ADMIN']), controller.getUsers)
 
 router.get('/registration', controller.registrationGet)
 router.get('/login', controller.loginGet)
-router.get('/profile/:id', controller.profile)
+router.get('/profile/:id', authMiddleware, controller.profile)
 module.exports = router

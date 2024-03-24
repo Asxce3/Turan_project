@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator')
 const {secret} = require('../config')
 
+
 const generateAccessToken = (id, roles) => {
     const payload = {
         id, 
@@ -27,8 +28,7 @@ class authController {
             }
             const hashPassword = bcrypt.hashSync(password, 7)
             const userRole = await Role.findOne({value: "USER"})
-            const user = new User({username, password: hashPassword, bouneses: 0,
-                 subscription: false, role: [userRole.value]})
+            const user = new User({username, password: hashPassword, bouneses: 0,subscription: false, role: [userRole.value]})
             await user.save()
             // return res.json({message: 'Пользователь успешно зарегестрирован'})
             return res.redirect('login')
@@ -51,9 +51,8 @@ class authController {
                 return res.status(400).json({message:`Введен неверный пароль`})
             }
             const token = generateAccessToken(user._id, user.role)
-            // return res.json({token})
-            
-            return res.redirect(`profile/${user._id}?token=${token}`)
+            res.cookie('token', `Bearer ${token}`)
+            return res.redirect(`profile/${user._id}`)
 
         }   catch(e) {
                 console.log(e)
@@ -82,8 +81,7 @@ class authController {
     async profile(req, res) {
         
         try {
-            const token = req.query
-            // console.log(token)
+            const token = req.cookies.token.split(' ')[1]
             const user = await User.findById(req.params.id)
             // console.log(user)
 
