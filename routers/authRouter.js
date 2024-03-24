@@ -1,9 +1,9 @@
 const Router = require('express')
 const router = new Router()
-const controller = require('./authController')
+const controller = require('../controllers/authController')
 const { check } = require('express-validator')
-const authMiddleware = require('./middlewaree/authMIddleware')
-const roleMiddleware = require('./middlewaree/roleMiddleware')
+const authMiddleware = require('../middlewaree/authMIddleware')
+const roleMiddleware = require('../middlewaree/roleMiddleware')
 
 
 router.post('/registration',

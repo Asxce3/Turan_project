@@ -1,7 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const authRouter = require('./authRouter')
-const qrRouter = require('./qrRouter')
+const authRouter = require('./routers/authRouter')
+const qrRouter = require('./routers/qrRouter')
 
 const PORT = process.env.PORT || 3000
 

@@ -1,4 +1,4 @@
-const User = require('./models/User')
+const User = require('../models/User')
 const Qrcode = require('qrcode')
 // const axios = require('axios')
 
