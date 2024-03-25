@@ -3,8 +3,9 @@ const {Schema, model} = require('mongoose')
 const User = new Schema({
     username: {type: String, unique: true, required: true},
     password: {type: String, required: true},
-    bouneses: {type: Number, required: true},
-    subscription: {type: Boolean, required: true},
+    bonuses: {type: Number, default: 0},
+    subscription: {type: Boolean, default: false},
+    orders: [{type: Schema.Types.ObjectId, ref: 'Order'}],
     role: [{type: String, ref: 'Role'}]
 })
 

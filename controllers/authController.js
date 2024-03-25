@@ -1,5 +1,8 @@
 const User = require('../models/User')
 const Role = require('../models/Role')
+const Order = require('../models/Order')
+const Staff = require('../models/Staff')
+const Restaurant = require('../models/Restaurant')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator')
@@ -28,10 +31,10 @@ class authController {
             }
             const hashPassword = bcrypt.hashSync(password, 7)
             const userRole = await Role.findOne({value: "USER"})
-            const user = new User({username, password: hashPassword, bouneses: 0,subscription: false, role: [userRole.value]})
+            const user = new User({username, password: hashPassword, role: [userRole.value]})
             await user.save()
-            // return res.json({message: 'Пользователь успешно зарегестрирован'})
-            return res.redirect('login')
+            return res.json({message: 'Пользователь успешно зарегестрирован'})
+            // return res.redirect('login')
         }   catch(e) {
                 console.log(e)
                 return res.status(400).json({message: 'Registrtion error'})
@@ -52,6 +55,7 @@ class authController {
             }
             const token = generateAccessToken(user._id, user.role)
             res.cookie('token', `Bearer ${token}`)
+            // return res.json({message: 'вы вошли', userData:  user})
             return res.redirect(`profile/${user._id}`)
 
         }   catch(e) {
@@ -81,12 +85,9 @@ class authController {
     async profile(req, res) {
         
         try {
-            const token = req.cookies.token.split(' ')[1]
             const user = await User.findById(req.params.id)
-            // console.log(user)
 
             return res.render('pages/profile', {user})
-            
         }   catch(e) {
             console.log(e)
         }
