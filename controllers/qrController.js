@@ -1,6 +1,5 @@
 const User = require('../models/User')
 const Qrcode = require('qrcode')
-// const axios = require('axios')
 
 class qrController {
     async CreateQr(req, res) {

@@ -1,7 +1,8 @@
 const {Schema, model} = require('mongoose')
 
 const Staff = new Schema({
-    name: {type: String},
+    staffName: {type: String},
+    password: {type: String},
     nameRestaurant: {type: String, ref: 'Restaurant'},
     role: [{type: String, ref: 'Role'}]
 })

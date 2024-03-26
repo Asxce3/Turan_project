@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const Role = require('./models/Role')
 const authRouter = require('./routers/authRouter')
 const qrRouter = require('./routers/qrRouter')
 const cookieParser = require('cookie-parser')
@@ -19,9 +20,10 @@ app.use((req, res, next) => {
   });
 app.use('/auth', authRouter)
 app.use('/api', qrRouter)
-app.get('/', (req, res) => {
-    res.render('pages/index')
-    // res.json({message:'ok'})
+app.get('/', async (req, res) => {
+    // const staffRole = new Role({value : 'RESTAURANT'})
+    // await staffRole.save()
+    res.json({message:'ok'})
 })
 
 const start = async () => {

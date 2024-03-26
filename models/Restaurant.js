@@ -1,9 +1,10 @@
 const {Schema, model} = require('mongoose')
 
 const Restaurant = new Schema({
-    name: {type: String, unique: true},
+    nameRestaurant: {type: String, unique: true},
+    password: {type: String, required: true},
+    role: [{type: String, ref: 'Role'}],
     staff: [{
-        id: {type: String, ref: 'Staff'},
         name: {type: String},
     }]
 })
