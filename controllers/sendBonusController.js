@@ -44,7 +44,6 @@ class sendBonusController {
             const order = new Order({nameRestauran, orderCost, bonuses: discardedBonuses, userId: user._id})
             await order.save()
 
-            user.orders.push(order)
             user.bonuses = bonuses
             await user.save()
 
@@ -67,7 +66,6 @@ class sendBonusController {
             const order = new Order({nameRestauran, orderCost, bonuses, userId: user._id})
             await order.save()
 
-            user.orders.push(order)
             user.bonuses += bonuses
             await user.save()
 

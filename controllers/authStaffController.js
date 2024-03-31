@@ -31,7 +31,7 @@ class authController {
             const staffRole = await Role.findOne({value: "STAFF"})
             const staff = new Staff({staffName, password: hashPassword, nameRestaurant, role: [staffRole.value]})
             await staff.save()
-            restaurant.staff.push(staff._id, {name: staffName}) 
+            restaurant.staff.push({name: staffName, staffId: staff._id}) 
             await restaurant.save()
             return res.json({message: 'Staff успешно зарегестрирован'})
         }   catch(e) {
@@ -42,9 +42,9 @@ class authController {
 
     async login(req, res) {
         try {
-            const {staffName, password, nameRestaurant} = req.body
+            const {staffName, nameRestaurant,  password} = req.body
             const staffWork = await Restaurant.findOne({nameRestaurant})
-            const staff = await Staff.findOne({nameRestaurant})
+            const staff = await Staff.findOne({staffName, nameRestaurant})
 
             if(!staffWork) {
                 return res.status(400).json({message:`Ресторан ${nameRestaurant} не найден`})

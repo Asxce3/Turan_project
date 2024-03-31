@@ -5,6 +5,7 @@ const Restaurant = new Schema({
     password: {type: String, required: true},
     role: [{type: String, ref: 'Role'}],
     staff: [{
+        staffId: {type: String},
         name: {type: String},
     }]
 })
