@@ -1,5 +1,4 @@
 const Role = require('../models/Role')
-const Order = require('../models/Order')
 const Staff = require('../models/Staff')
 const Restaurant = require('../models/Restaurant')
 const bcrypt = require('bcrypt');
@@ -31,12 +30,10 @@ class authController {
             const hashPassword = bcrypt.hashSync(password, 7)
             const staffRole = await Role.findOne({value: "STAFF"})
             const staff = new Staff({staffName, password: hashPassword, nameRestaurant, role: [staffRole.value]})
-            console.log(staff)
             await staff.save()
             restaurant.staff.push(staff._id, {name: staffName}) 
             await restaurant.save()
             return res.json({message: 'Staff успешно зарегестрирован'})
-            // return res.redirect('login')
         }   catch(e) {
                 console.log(e)
                 return res.status(400).json({message: 'Registrtion error'})
@@ -63,7 +60,6 @@ class authController {
             const token = generateAccessToken(staff._id, staff.role)
             res.cookie('token', `Bearer ${token}`)
             return res.json({message: 'вы вошли', staffData:  staff})
-            // return res.redirect(`profile/${user._id}`)
 
         }   catch(e) {
                 console.log(e)
@@ -71,35 +67,6 @@ class authController {
         }
     }
 
-    async registrationGet(req, res) {
-        try {
-            return res.render('pages/reg')
-            
-        }   catch(e) {
-            console.log(e)
-        }
-    }
-
-    async loginGet(req, res) {
-        try {
-            return res.render('pages/login')
-            
-        }   catch(e) {
-            console.log(e)
-        }
-    }
-
-    async profile(req, res) {
-        
-        try {
-            const user = await User.findById(req.params.id)
-
-            return res.render('pages/profile', {user})
-        }   catch(e) {
-            console.log(e)
-        }
-        
-    }
 }
 
 module.exports = new authController()

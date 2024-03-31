@@ -37,7 +37,6 @@ class authController {
             await restaurant.save()
 
             return res.json({message: 'Заведение успешно зарегестрировано'})
-            // return res.redirect('login')
         }   catch(e) {
                 console.log(e)
                 return res.status(400).json({message: 'Registrtion error'})
@@ -61,42 +60,11 @@ class authController {
             const token = generateAccessToken(restaurant._id, restaurant.role)
             res.cookie('token', `Bearer ${token}`)
             return res.json({message: 'вы вошли', restaurantData:  restaurant})
-            // return res.redirect(`profile/${user._id}`)
 
         }   catch(e) {
                 console.log(e)
                 res.status(400).json({message: 'Login error'})
         }
-    }
-
-    async registrationGet(req, res) {
-        try {
-            return res.render('pages/reg')
-            
-        }   catch(e) {
-            console.log(e)
-        }
-    }
-
-    async loginGet(req, res) {
-        try {
-            return res.render('pages/login')
-            
-        }   catch(e) {
-            console.log(e)
-        }
-    }
-
-    async profile(req, res) {
-        
-        try {
-            const user = await User.findById(req.params.id)
-
-            return res.render('pages/profile', {user})
-        }   catch(e) {
-            console.log(e)
-        }
-        
     }
 }
 

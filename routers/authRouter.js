@@ -6,33 +6,33 @@ const controllerRestaurant = require('../controllers/authRestaurantController')
 const { check } = require('express-validator')
 const authMiddleware = require('../middlewaree/authMIddleware')
 const roleMiddleware = require('../middlewaree/roleMiddleware')
+const authRestaurantMiddleware = require('../middlewaree/authRestaurantMiddleware')
 
 // User
-router.post('/registrationUser',
+router.post('/registration-user',
     [check('username', 'Имя пользователя не может быть пустым').notEmpty(),
     check('password', 'Пороль должен быть более 4 символом и меньше 10 символов').isLength({min: 4, max: 10})
 ],
-controllerUser.registrationPost)
+controllerUser.registration)
 
-router.post('/loginUser', controllerUser.loginPost)
+router.post('/login-user', controllerUser.login)
 
 // Staff
-router.post('/registrationStaff',
+router.post('/registration-staff',
     [check('staffName', 'Имя пользователя не может быть пустым').notEmpty(),
     check('password', 'Пороль должен быть более 4 символом и меньше 10 символов').isLength({min: 4, max: 10})
-],
-controllerStaff.registration)
+],authRestaurantMiddleware(['RESTAURANT']), controllerStaff.registration)
 
-router.post('/loginStaff', controllerStaff.login)
+router.post('/login-staff', controllerStaff.login)
 
 // Restaurant
-router.post('/registrationRest',
+router.post('/registration-restaurant',
     [check('nameRestaurant', 'Имя пользователя не может быть пустым').notEmpty(),
     check('password', 'Пороль должен быть более 4 символом и меньше 10 символов').isLength({min: 4, max: 10})
 ],
 controllerRestaurant.registration)
 
-router.post('/loginRest', controllerRestaurant.login)
+router.post('/login-restaurant', controllerRestaurant.login)
 
 // router.get('/users', roleMiddleware(['ADMIN']), controller.getUsers)
 

@@ -1,8 +1,5 @@
 const User = require('../models/User')
 const Role = require('../models/Role')
-const Order = require('../models/Order')
-const Staff = require('../models/Staff')
-const Restaurant = require('../models/Restaurant')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator')
@@ -18,7 +15,7 @@ const generateAccessToken = (id, roles) => {
 }
 
 class authController {
-    async registrationPost(req, res) {
+    async registration(req, res) {
         try {
             const errors = validationResult(req)
             if(!errors.isEmpty()) {
@@ -34,14 +31,13 @@ class authController {
             const user = new User({username, password: hashPassword, role: [userRole.value]})
             await user.save()
             return res.json({message: 'Пользователь успешно зарегестрирован'})
-            // return res.redirect('login')
         }   catch(e) {
                 console.log(e)
                 return res.status(400).json({message: 'Registrtion error'})
         }
     }
 
-    async loginPost(req, res) {
+    async login(req, res) {
         try {
             const {username, password} = req.body
             const user = await User.findOne({username})
@@ -55,30 +51,11 @@ class authController {
             }
             const token = generateAccessToken(user._id, user.role)
             res.cookie('token', `Bearer ${token}`)
-            // return res.json({message: 'вы вошли', userData:  user})
-            return res.redirect(`profile/${user._id}`)
+            return res.json({message: 'вы вошли', userData:  user})
 
         }   catch(e) {
                 console.log(e)
                 res.status(400).json({message: 'Login error'})
-        }
-    }
-
-    async registrationGet(req, res) {
-        try {
-            return res.render('pages/reg')
-            
-        }   catch(e) {
-            console.log(e)
-        }
-    }
-
-    async loginGet(req, res) {
-        try {
-            return res.render('pages/login')
-            
-        }   catch(e) {
-            console.log(e)
         }
     }
 
@@ -94,14 +71,6 @@ class authController {
         
     }
 
-    async getUsers(req, res){
-        try{
-            const users = await User.find()
-            res.send(users)
-        }   catch(e){
-            console.log(e)
-        }
-    }
 }
 
 module.exports = new authController()

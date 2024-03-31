@@ -9,7 +9,7 @@ module.exports = function(req, res, next) {
     try {
         const token = req.cookies.token.split(' ')[1]
         if(!token) {
-            return res.status(403).json({message: 'Пользователь не авторизован1'})
+            return res.status(403).json({message: 'Пользователь не авторизован (нет jwt токена)'})
         }
         const decodedData = jwt.verify(token, secret)
         req.user = decodedData
