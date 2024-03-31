@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const Role = require('./models/Role')
 const authRouter = require('./routers/authRouter')
 const qrRouter = require('./routers/qrRouter')
+const bonusRoutee = require('./routers/bonusRouter')
 const cookieParser = require('cookie-parser')
 const PORT = process.env.PORT || 3000
 
@@ -20,6 +21,7 @@ app.use((req, res, next) => {
   });
 app.use('/auth', authRouter)
 app.use('/api', qrRouter)
+app.use('/bonus', bonusRoutee)
 app.get('/', async (req, res) => {
     // const staffRole = new Role({value : 'RESTAURANT'})
     // await staffRole.save()
