@@ -4,6 +4,7 @@ const Role = require('./models/Role')
 const authRouter = require('./routers/authRouter')
 const qrRouter = require('./routers/qrRouter')
 const bonusRoutee = require('./routers/bonusRouter')
+const userDataRouter = require('./routers/userDataRouter')
 const cookieParser = require('cookie-parser')
 const PORT = process.env.PORT || 3000
 
@@ -20,6 +21,7 @@ app.use((req, res, next) => {
     next();
   });
 app.use('/auth', authRouter)
+app.use('/user', userDataRouter)
 app.use('/api', qrRouter)
 app.use('/bonus', bonusRoutee)
 app.get('/', async (req, res) => {
