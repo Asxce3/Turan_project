@@ -51,7 +51,8 @@ class authController {
             }
             const token = generateAccessToken(user._id, user.role)
             res.cookie('token', `Bearer ${token}`)
-            return res.json({message: 'вы вошли', userData:  user})
+            
+            return res.json({message: 'вы вошли', userData:  user, token: `Bearer ${token}`})
 
         }   catch(e) {
                 console.log(e)
