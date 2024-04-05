@@ -1,19 +1,6 @@
-const Role = require('../models/Role')
-const Staff = require('../models/Staff')
 const User = require('../models/User')
 const Order = require('../models/Order')
-const jwt = require('jsonwebtoken');
-const {secret} = require('../config');
 const Restaurant = require('../models/Restaurant');
-
-
-const generateAccessToken = (id, roles) => {
-    const payload = {
-        id, 
-        roles
-    }
-    return jwt.sign(payload, secret, {expiresIn: '24h'})
-}
 
 class userData {
     async profile(req, res) {

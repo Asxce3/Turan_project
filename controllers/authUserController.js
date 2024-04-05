@@ -2,7 +2,6 @@ const User = require('../models/User')
 const Role = require('../models/Role')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { validationResult } = require('express-validator')
 const {secret} = require('../config')
 
 
@@ -17,14 +16,11 @@ const generateAccessToken = (id, roles) => {
 class authController {
     async registration(req, res) {
         try {
-            const errors = validationResult(req)
-            if(!errors.isEmpty()) {
-                return res.status(400).json({message: 'Ошибка при регистрации', errors})
-            }
+            
             const {username, password} = req.body
             const condidate = await User.findOne({username})
             if(condidate) {
-                return res.status(400).json({message:"Пользователь с таким именем уже сущустует"})
+                return res.status(400).json({message:"Пользователь с таким именем уже сущустует", Boolean: false})
             }
             const hashPassword = bcrypt.hashSync(password, 7)
             const userRole = await Role.findOne({value: "USER"})
@@ -33,7 +29,7 @@ class authController {
             return res.json({message: 'Пользователь успешно зарегестрирован'})
         }   catch(e) {
                 console.log(e)
-                return res.status(400).json({message: 'Registrtion error'})
+                return res.status(400).json({message: 'Registrtion error', Boolean: false})
         }
     }
 
@@ -42,36 +38,22 @@ class authController {
             const {username, password} = req.body
             const user = await User.findOne({username})
             if(!user) {
-                return res.status(400).json({message:`Пользователь ${username} не найден`})
+                return res.status(400).json({message:`Пользователь ${username} не найден`, Boolean: false})
             }
 
             const validPassword = bcrypt.compareSync(password, user.password) 
             if(!validPassword) {
-                return res.status(400).json({message:`Введен неверный пароль`})
+                return res.status(400).json({message:`Введен неверный пароль`, Boolean: false})
             }
             const token = generateAccessToken(user._id, user.role)
-            res.cookie('token', `Bearer ${token}`)
             
             return res.json({message: 'вы вошли', userData:  user, token: `Bearer ${token}`})
 
         }   catch(e) {
                 console.log(e)
-                res.status(400).json({message: 'Login error'})
+                res.status(400).json({message: 'Login error', Boolean: false})
         }
     }
-
-    async profile(req, res) {
-        
-        try {
-            const user = await User.findById(req.params.id)
-
-            return res.render('pages/profile', {user})
-        }   catch(e) {
-            console.log(e)
-        }
-        
-    }
-
 }
 
 module.exports = new authController()

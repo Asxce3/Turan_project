@@ -3,17 +3,6 @@ const Staff = require('../models/Staff')
 const User = require('../models/User')
 const Order = require('../models/Order')
 const Restaurant = require('../models/Restaurant')
-const jwt = require('jsonwebtoken');
-const {secret} = require('../config')
-
-
-const generateAccessToken = (id, roles) => {
-    const payload = {
-        id, 
-        roles
-    }
-    return jwt.sign(payload, secret, {expiresIn: '24h'})
-}
 
 const calculateBonus = (cost, discount) => {
     discount /= 100
@@ -31,7 +20,7 @@ class sendBonusController {
         try {
             const orderCost = req.body.price
             const user = await User.findOne({username:'samvel'})    // User должен прилетать с qr
-            const staff = await Staff.findOne({staffName: 'bolat'})    // Staff должен прилетать с qr
+            const staff = await Staff.findOne({staffName: 'petya'})    // Staff должен прилетать с qr
             const nameRestauran = staff.nameRestaurant
             const userBonuses = user.bonuses
             
@@ -58,7 +47,7 @@ class sendBonusController {
         try {
             const orderCost = req.body.price
             const user = await User.findOne({username:'samvel'})    // User должен прилетать с qr
-            const staff = await Staff.findOne({staffName: 'bolat'})    // Staff должен прилетать с qr
+            const staff = await Staff.findOne({staffName: 'petya'})    // Staff должен прилетать с qr
             const nameRestauran = staff.nameRestaurant
             const userDiscount = user.discount
 

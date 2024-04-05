@@ -1,6 +1,5 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const Role = require('./models/Role')
 const authRouter = require('./routers/authRouter')
 const qrRouter = require('./routers/qrRouter')
 const bonusRoutee = require('./routers/bonusRouter')
@@ -13,7 +12,6 @@ const app = express()
 app.set('view engine', 'ejs')
 app.use(express.urlencoded())
 app.use(express.json())
-app.use(cookieParser())
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -23,25 +21,11 @@ app.use((req, res, next) => {
   });
 app.use('/auth', authRouter)
 app.use('/user', userDataRouter)
-app.use('/api', qrRouter)
+app.use('/qr', qrRouter)
 app.use('/bonus', bonusRoutee)
-app.get('/', async (req, res) => {
-    // const staffRole = new Role({value : 'RESTAURANT'})
-    // await staffRole.save()
-    res.cookie('myCookie', 'hello')
+app.get('/', (req, res) => {
     res.json({message:'ok'})
 })
-app.get('/get-cookie', (req, res) => {
-    console.log('Cookie: ', req.cookies);
-    res.send('Get Cookie');
-});
-
-app.get('/set-cookie', (req, res) => {
-    res.cookie('myCookie', 'hello');
-    res.send('Set Cookie');
-});
-
-
 
 const start = async () => {
     try {
