@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const Role = require('./models/Role')
 const authRouter = require('./routers/authRouter')
 const qrRouter = require('./routers/qrRouter')
 const bonusRoutee = require('./routers/bonusRouter')
@@ -23,13 +24,14 @@ app.use('/auth', authRouter)
 app.use('/user', userDataRouter)
 app.use('/qr', qrRouter)
 app.use('/bonus', bonusRoutee)
-app.get('/', (req, res) => {
+app.get('/', async(req, res) => {
+
     res.json({message:'ok'})
 })
 
 const start = async () => {
     try {
-        await mongoose.connect('mongodb://127.0.0.1:27017/turan_project')
+        await mongoose.connect('mongodb+srv://samvdiaz1:Ri79MsZx4izmU4kq@cluster0.sp0myqu.mongodb.net/')
         app.listen(PORT, () => console.log(`server start on ${PORT} port`))
     }   catch(e) {
         console.log(e)
